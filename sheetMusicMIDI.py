@@ -1,11 +1,10 @@
 from music21 import converter, tempo
 
-# Load the MusicXML file
-score = converter.parse('/Users/guja/Coding/NoteRecognition/Someone You Loved.xml')
-
 def findSeconds(filepath):
-    bpm = None
+    # Load XML, MIDI file
+    score = converter.parse(filepath)
 
+    bpm = None
     # Loop through all elements in the score to find tempo markings (MetronomeMark)
     for element in score.flatten():
         if isinstance(element, tempo.MetronomeMark):
@@ -39,4 +38,4 @@ def findSeconds(filepath):
     # Output the notes and their corresponding times
     return timestamps
 
-print(findSeconds(score))
+print(findSeconds("/Users/guja/Coding/NoteRecognition/Someone You Loved.xml"))

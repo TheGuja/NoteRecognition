@@ -36,6 +36,6 @@ def findSeconds(filepath):
     timestamps.sort(key=lambda x: x[1])
 
     # Output the notes and their corresponding times
-    return bpm, timestamps
+    return 60 / bpm, timestamps
 
 print(findSeconds("/Users/guja/Coding/NoteRecognition/Someone You Loved.xml"))

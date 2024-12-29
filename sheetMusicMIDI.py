@@ -11,12 +11,9 @@ def findSeconds(filepath):
         if isinstance(element, tempo.MetronomeMark):
             bpm = element.getQuarterBPM() # Get tempo in BPM
 
-    # If tempo was found, print it; otherwise, print a default message
-    if bpm is not None:
-        print(f"Tempo: {bpm} BPM")
-    else:
-        print("No tempo marking found. Using default tempo.")
-        bpm = 120  # Use a default BPM (e.g., 120) if no tempo is found
+    # Use default BPM if no tempo is found
+    if bpm is None:
+        bpm = 120
 
     beats_per_second = 60 / bpm
 
@@ -42,4 +39,4 @@ def findSeconds(filepath):
     # Output the notes and their corresponding times
     return timestamps
 
-findSeconds(score)
+print(findSeconds(score))

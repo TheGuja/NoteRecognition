@@ -6,25 +6,43 @@ import torchaudio
 import torch.nn.functional as F
 import nsynthDataset
 
-loaded_model = CNNModel(88)
-loaded_model.load_state_dict(torch.load(f="nsynth/models/nsynthCNNModel_5_epochs.pth"))
+def pitchClassification(filepath):
+    # Load the model with 88 classes
+    loaded_model = CNNModel(88)
+    loaded_model.load_state_dict(torch.load(f="/Users/guja/Coding/NoteRecognition/models/nsynthCNNModel_5_epochs.pth"))
 
-device = "mps"
-loaded_model = loaded_model.to(device)
+    # Specify device
+    device = "mps"
+    # Move model to mps
+    loaded_model = loaded_model.to(device)
 
-# loaded_model.eval()
-# with torch.inference_mode(): 
-#     transformation = torchaudio.transforms.MelSpectrogram(16000, n_fft=800)
-#     filepath = "nsynth/C.wav"
-#     waveform, sr = torchaudio.load(filepath)
-#     waveform = torchaudio.transforms.Resample(orig_freq=sr, new_freq=16000)(waveform)
-#     mel_spectrogram = transformation(waveform)
-#     mel_spectrogram = F.pad(mel_spectrogram, (0, 159))  # Pad with zeros at the end of the time dimension
-#     mel_spectrogram = mel_spectrogram.unsqueeze(0)
-#     mel_spectrogram = mel_spectrogram.to(device)
-#     outputs = loaded_model(mel_spectrogram)
-#     _, predicted = torch.max(outputs, 1)
-#     print(predicted)
+    # Put model in evaluation mode
+    loaded_model.eval()
+    with torch.inference_mode():
+        # Transformation function for .wav file --> sample rate is 16000
+        transformation = torchaudio.transforms.MelSpectrogram(16000)
 
-# train_data_custom = nsynthDataset.NSynthCustom(targ_dir="nsynth/data/train", transform=transformation)
+        # Load the audio
+        waveform, sr = torchaudio.load(filepath)
+
+        # Resample audio if needed
+        waveform = torchaudio.transforms.Resample(orig_freq=sr, new_freq=16000)(waveform)
+
+        # Apply melspectrogram transformation to waveform
+        mel_spectrogram = transformation(waveform)
+
+        # Pad with zeros at the end of the time dimension to fit tensor input size
+        mel_spectrogram = F.pad(mel_spectrogram, (0, 321 - mel_spectrogram.shape[2]))
+        mel_spectrogram = mel_spectrogram.unsqueeze(0)
+
+        # Move to mps
+        mel_spectrogram = mel_spectrogram.to(device)
+
+        # Output results
+        outputs = loaded_model(mel_spectrogram)
+        _, predicted = torch.max(outputs, 1)
+        
+        return predicted
+
+# train_data_custom = nsynthDataset.NSynthCustom(targ_dir="/Users/guja/Coding/NoteRecognition/data/test", transform=transformation)
 # print(train_data_custom.class_to_idx)

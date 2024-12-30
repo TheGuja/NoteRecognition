@@ -37,5 +37,3 @@ def findSeconds(filepath):
 
     # Output the notes and their corresponding times
     return 60 / bpm, timestamps
-
-print(findSeconds("/Users/guja/Coding/NoteRecognition/Someone You Loved.xml"))

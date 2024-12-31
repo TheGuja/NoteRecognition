@@ -44,5 +44,9 @@ def pitchClassification(filepath):
         
         return predicted
 
-# train_data_custom = nsynthDataset.NSynthCustom(targ_dir="/Users/guja/Coding/NoteRecognition/data/test", transform=transformation)
-# print(train_data_custom.class_to_idx)
+if __name__ == "__main__":
+    transformation = torchaudio.transforms.MelSpectrogram(16000)
+    train_data_custom = nsynthDataset.NSynthCustom(targ_dir="/Users/guja/Coding/NoteRecognition/data/test", transform=transformation)
+    print(train_data_custom.class_to_idx)
+
+    print(pitchClassification("/Users/guja/Coding/NoteRecognition/testTest0.wav"))

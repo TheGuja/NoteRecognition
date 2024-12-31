@@ -1,6 +1,6 @@
 from pydub import AudioSegment
 
-def convert_m4a_to_wav(input_file, output_file, target_sample_rate=16000):
+def convert_to_wav(input_file, output_file, target_sample_rate=16000):
     audio = AudioSegment.from_file(input_file)
 
     if target_sample_rate:

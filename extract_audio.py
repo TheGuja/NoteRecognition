@@ -29,7 +29,8 @@ def extract_audio_segment(input_file, start_time_ms, end_time_ms, output_file):
     audio = AudioSegment.from_file(input_file)
     segment = audio[start_time_ms: end_time_ms]
 
-    segment.export(output_file, format="wav")
+    # Check if samplerate is 16000
+    segment.export(output_file, format="wav", parameters=["-ar", "16000"])
 
     # TODO: Export to a folder
 

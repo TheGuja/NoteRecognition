@@ -10,7 +10,7 @@ from pathlib import Path
 
 transformation = torchaudio.transforms.MelSpectrogram(sample_rate=16000)
 
-train_data_custom = nsynthDataset.NSynthCustom(targ_dir="nsynth/data/train", transform=transformation)
+train_data_custom = nsynthDataset.NSynthCustom(targ_dir="/Users/guja/Coding/NoteRecognition/data/train", transform=transformation)
 
 train_dataloader = DataLoader(dataset=train_data_custom,
                               batch_size=32,
@@ -27,7 +27,7 @@ model = model.to(device)
 criterion = nn.CrossEntropyLoss()  # For multi-class classification
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
-epochs = 5
+epochs = 10
 for epoch in range(epochs):
     model.train()
     running_loss = 0.0
@@ -57,11 +57,11 @@ for epoch in range(epochs):
     print(f"Epoch [{epoch+1}/{epochs}], Loss: {running_loss/len(train_dataloader):.4f}, Accuracy: {100 * correct / total:.2f}%")
 
 # 1. Create models directory 
-MODEL_PATH = Path("nsynth/models")
+MODEL_PATH = Path("/Users/guja/Coding/NoteRecognition/models")
 MODEL_PATH.mkdir(parents=True, exist_ok=True)
 
 # 2. Create model save path 
-MODEL_NAME = "nsynthCNNModel_5_epochs.pth"
+MODEL_NAME = "nsynthCNNModel_10_epochs.pth"
 MODEL_SAVE_PATH = MODEL_PATH / MODEL_NAME
 
 # 3. Save the model state dict 

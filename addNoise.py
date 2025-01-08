@@ -40,8 +40,8 @@ if __name__ == "__main__":
             for filename in os.listdir(input_folder):
                 if filename.endswith(".wav"):
                     input_file = os.path.join(input_folder, filename)
-                    output_file1 = os.path.join(output_folder, f"noisy_{filename}_0.1")
-                    output_file2 = os.path.join(output_folder, f"noisy_{filename}_0.2")
+                    output_file1 = os.path.join(output_folder, f"noisy_0.1_{filename}")
+                    output_file2 = os.path.join(output_folder, f"noisy_0.2{filename}")
                     
                     add_noise_to_wav(input_file, output_file1, 0.1)
                     add_noise_to_wav(input_file, output_file2, 0.2)
